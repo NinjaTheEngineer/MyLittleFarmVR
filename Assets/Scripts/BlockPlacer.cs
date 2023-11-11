@@ -13,6 +13,9 @@ public class BlockPlacer : NinjaMonoBehaviour {
     public LayerMask layersToHit;
     PreviewBlock previewBlock;
     bool _isPlacingBlock = false;
+
+    public static Action OnPlacementStart;
+    public static Action OnBlockPlaced;
     public bool IsPlacingBlock {
         get => _isPlacingBlock;
         private set {
@@ -57,14 +60,15 @@ public class BlockPlacer : NinjaMonoBehaviour {
             IsPlacingBlock = true;
         }*/
         Debug.DrawRay(RightHandOrigin.position, RightHandOrigin.forward * rayLength, Color.red);
-        
+
         if (IsPlacingBlock && Physics.Raycast(RightHandOrigin.position, RightHandOrigin.forward * rayDistance, out raycastHit, 10, layersToHit)) {
             HandlePreviewPosition();
         }
     }
-    public void OnLeftTriggerPressed() {
+    public void StartPlacingBlock() {
         if (!IsPlacingBlock) {
             IsPlacingBlock = true;
+            OnPlacementStart?.Invoke();
         }
     }
     public Transform RightHandOrigin;
@@ -82,6 +86,7 @@ public class BlockPlacer : NinjaMonoBehaviour {
     void PlaceBlock() {
         IsPlacingBlock = false;
         Instantiate(blockPrefab, previewBlock.transform.position, Quaternion.identity);
+        OnBlockPlaced?.Invoke();
     }
     private void HandlePreviewPosition() {
         var logId = "HandlePreviewPosition";
@@ -168,24 +173,4 @@ public class BlockPlacer : NinjaMonoBehaviour {
         bool anyChange = changedX || changedY;
         return anyChange ? blockPos : raycastHit.point;
     }
-    bool IsPositionValid(Vector3 blockPos, Vector3 blockSize) {
-        var logId = "IsPositionValid";
-        if (Physics.CheckBox(previewBlock.transform.position, blockSize, previewBlock.transform.rotation, obstacleLayers)) {
-            logd(logId, "BoxCast found something => Invalid Position", false, 2f);
-            return false;
-        } else {
-            logd(logId, "BoxCast is good => Valid Position", false, 2f);
-            return true;
-        }
-    }
-
-    /*  int layersToHitValue = layersToHit.value;
-       int layersToIgnoreValue = layersToIgnore.value;
-
-       // Create a new layer mask that includes the layers to hit and excludes the layers to ignore
-       int combinedLayerMaskValue = layersToHitValue & ~layersToIgnoreValue;
-       LayerMask combinedLayerMask = (LayerMask)combinedLayerMaskValue;
-    * 
-    */
-
 }

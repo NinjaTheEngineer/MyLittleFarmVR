@@ -413,8 +413,8 @@ namespace HurricaneVR.Framework.Core.Grabbers
 
             CheckPullAnchor();
         }
-
-
+        public void EnableForceGrabber() => ForceGrabber?.gameObject.SetActive(true);
+        public void DisableForceGrabber() => ForceGrabber?.gameObject.SetActive(false);
 
         protected override void Start()
         {

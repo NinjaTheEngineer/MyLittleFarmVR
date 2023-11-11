@@ -47,8 +47,12 @@ namespace NinjaTools {
             return "[" + string.Join(",", list) + "]";
         }
         static Dictionary<string, string> lastIdMessage = new Dictionary<string, string>();
+        static Dictionary<string, float> lastMessageTime = new Dictionary<string, float>();
         public static void logd(string id, string message, bool ignoreDuplicates = false, float delay = 0, GameObject highlightGO = null) {
             if (ignoreDuplicates && lastIdMessage.ContainsKey(id) && lastIdMessage[id] == message) {
+                return;
+            }
+            if(lastMessageTime.ContainsKey(id) && Time.realtimeSinceStartup - lastMessageTime[id] < delay) {
                 return;
             }
             if (highlightGO) {
@@ -57,14 +61,19 @@ namespace NinjaTools {
                 Debug.Log(id + "::" + message);
             }
             if (lastIdMessage.ContainsKey(id)) {
+                lastMessageTime[id] = Time.realtimeSinceStartup;
                 lastIdMessage[id] = message;
             } else {
                 lastIdMessage.Add(id, message);
+                lastMessageTime.Add(id, Time.realtimeSinceStartup);
             }
         }
 
         public static void logw(string id, string message, bool ignoreDuplicates = false, float delay = 0, GameObject highlightGO = null) {
             if (ignoreDuplicates && lastIdMessage.ContainsKey(id) && lastIdMessage[id] == message) {
+                return;
+            }
+            if (lastMessageTime.ContainsKey(id) && Time.realtimeSinceStartup - lastMessageTime[id] < delay) {
                 return;
             }
             if (highlightGO) {
@@ -73,14 +82,19 @@ namespace NinjaTools {
                 Debug.LogWarning(id + "::" + message);
             }
             if (lastIdMessage.ContainsKey(id)) {
+                lastMessageTime[id] = Time.realtimeSinceStartup;
                 lastIdMessage[id] = message;
             } else {
                 lastIdMessage.Add(id, message);
+                lastMessageTime.Add(id, Time.realtimeSinceStartup);
             }
         }
 
         public static void loge(string id = null, string message = null, bool ignoreDuplicates = false, float delay = 0, GameObject highlightGO = null) {
             if (ignoreDuplicates && lastIdMessage.ContainsKey(id) && lastIdMessage[id] == message) {
+                return;
+            }
+            if (lastMessageTime.ContainsKey(id) && Time.realtimeSinceStartup - lastMessageTime[id] < delay) {
                 return;
             }
             if (highlightGO) {
@@ -89,9 +103,11 @@ namespace NinjaTools {
                 Debug.LogError(id + "::" + message);
             }
             if (lastIdMessage.ContainsKey(id)) {
+                lastMessageTime[id] = Time.realtimeSinceStartup;
                 lastIdMessage[id] = message;
             } else {
                 lastIdMessage.Add(id, message);
+                lastMessageTime.Add(id, Time.realtimeSinceStartup);
             }
 
         }
