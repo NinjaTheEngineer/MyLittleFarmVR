@@ -36,7 +36,6 @@ public class BlockPlacer : NinjaMonoBehaviour {
     public float zDifference = 2f;
     public Vector3 lastRayHitPos;
     RaycastHit raycastHit;
-
     private void OnDrawGizmos() {
         var cam = Camera.main.transform;
         Gizmos.color = Color.blue;
@@ -52,16 +51,17 @@ public class BlockPlacer : NinjaMonoBehaviour {
         previewBlock = Instantiate(previewPrefab);
         previewBlock.SetActivePreview(false);
         MainCamera = Camera.main;
+        IsPlacingBlock = true;
     }
-
+    public LineRenderer lineRenderer;
     private void Update() {
         /*
         if (Input.GetKeyDown(KeyCode.Alpha1) && !IsPlacingBlock) {
             IsPlacingBlock = true;
         }*/
         Debug.DrawRay(RightHandOrigin.position, RightHandOrigin.forward * rayLength, Color.red);
-
         if (IsPlacingBlock && Physics.Raycast(RightHandOrigin.position, RightHandOrigin.forward * rayDistance, out raycastHit, 10, layersToHit)) {
+            lineRenderer.SetPositions(new Vector3[] { RightHandOrigin.position, raycastHit.point });
             HandlePreviewPosition();
         }
     }
