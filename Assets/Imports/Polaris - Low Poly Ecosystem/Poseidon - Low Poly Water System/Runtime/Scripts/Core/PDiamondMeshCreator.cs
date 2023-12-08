@@ -107,7 +107,7 @@ namespace Pinwheel.Poseidon
             m.RecalculateBounds();
             m.RecalculateNormals();
             //m.RecalculateTangents();
-            m.name = "Water Mesh";
+            m.name = "Water CurrentMesh";
 
             Bounds bounds = m.bounds;
             bounds.extents = new Vector3(bounds.extents.x, (bounds.extents.x + bounds.extents.z) * 0.5f, bounds.extents.z);

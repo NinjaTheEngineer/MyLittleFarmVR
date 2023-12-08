@@ -123,7 +123,7 @@ namespace Pinwheel.Poseidon
             m.RecalculateBounds();
             m.RecalculateNormals();
             //m.RecalculateTangents();
-            m.name = "Water Mesh";
+            m.name = "Water CurrentMesh";
             
 
             Bounds bounds = m.bounds;

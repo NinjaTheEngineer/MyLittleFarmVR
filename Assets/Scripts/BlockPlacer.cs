@@ -5,6 +5,12 @@ using NinjaTools;
 using System;
 using System.Security.Cryptography;
 using UnityEngine.UIElements;
+using HurricaneVR.Framework.ControllerInput;
+using UnityEngine.Events;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.XR;
+using TMPro;
+using System.Net;
 
 public class BlockPlacer : NinjaMonoBehaviour {
     public GameObject blockPrefab;
@@ -19,11 +25,15 @@ public class BlockPlacer : NinjaMonoBehaviour {
     public bool IsPlacingBlock {
         get => _isPlacingBlock;
         private set {
-            if (_isPlacingBlock == value) {
-                return;
-            }
-            previewBlock.SetActivePreview(value);
             _isPlacingBlock = value;
+            if (_isPlacingBlock) {
+                lineRenderer.positionCount = numOfCurvePoints;
+                OnPlacementStart?.Invoke();
+            } else {
+                lineRenderer.positionCount = 0;
+            }
+            
+            previewBlock.Show(_isPlacingBlock);
         }
     }
     public float handlePreviewStateRate = 0.05f;
@@ -37,65 +47,85 @@ public class BlockPlacer : NinjaMonoBehaviour {
     public Vector3 lastRayHitPos;
     RaycastHit raycastHit;
     private void OnDrawGizmos() {
-        var cam = Camera.main.transform;
+        if (!Application.isPlaying && !isActiveAndEnabled) return;
         Gizmos.color = Color.blue;
-        Gizmos.DrawRay(cam.position, cam.forward * rayDistance);
+        Gizmos.DrawRay(RightHandOrigin.position, RightHandOrigin.forward * rayDistance);
         Gizmos.DrawWireSphere(lastRayHitPos, nearbyRadius);
-
         if (previewBlock) {
             Gizmos.DrawWireCube(previewBlock.transform.position, blockSize);
         }
     }
-    Camera MainCamera;
     private void Start() {
         previewBlock = Instantiate(previewPrefab);
-        previewBlock.SetActivePreview(false);
-        MainCamera = Camera.main;
-        IsPlacingBlock = true;
+        previewBlock.Show(false);
     }
     public LineRenderer lineRenderer;
+    bool activeButtonLastFrame = false;
+    public float pointOneMultiplier = 2f;
+    public float pointTwoMultiplier = 2f;
     private void Update() {
-        /*
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !IsPlacingBlock) {
-            IsPlacingBlock = true;
-        }*/
-        Debug.DrawRay(RightHandOrigin.position, RightHandOrigin.forward * rayLength, Color.red);
         if (IsPlacingBlock && Physics.Raycast(RightHandOrigin.position, RightHandOrigin.forward * rayDistance, out raycastHit, 10, layersToHit)) {
-            lineRenderer.SetPositions(new Vector3[] { RightHandOrigin.position, raycastHit.point });
+            Debug.DrawRay(RightHandOrigin.position, RightHandOrigin.forward * rayLength, Color.red);
+            GenerateCurve(RightHandOrigin.position, raycastHit.point);
             HandlePreviewPosition();
         }
-    }
-    public void StartPlacingBlock() {
-        if (!IsPlacingBlock) {
-            IsPlacingBlock = true;
-            OnPlacementStart?.Invoke();
+        var buttonActive = HVRGlobalInputs.Instance.RightPrimaryButtonState.Active;
+        if (!activeButtonLastFrame && buttonActive) {
+            TogglePlacement();
         }
+        activeButtonLastFrame = buttonActive;
+
+    }
+    public float curveHeight = 0.5f;
+    void GenerateCurve(Vector3 startPos, Vector3 endPos) {
+        lineRenderer.positionCount = numOfCurvePoints; // Adjust the number of points as needed
+
+        Vector3[] positions = new Vector3[lineRenderer.positionCount];
+
+        for (int i = 0; i < lineRenderer.positionCount; i++) {
+            float t = i / (float)(lineRenderer.positionCount - 1);
+            positions[i] = CalculateBezierPoint(t, startPos, endPos, curveHeight);
+        }
+
+        lineRenderer.SetPositions(positions);
+    }
+
+    Vector3 CalculateBezierPoint(float t, Vector3 p0, Vector3 p1, float height) {
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+        float uuu = uu * u;
+        float ttt = tt * t;
+
+        Vector3 p = uuu * p0; // (1-t)^3 * p0
+        p += 3 * uu * t * (p0 + Vector3.down * height); // 3 * (1-t)^2 * t * (p0 + height * down vector)
+        p += 3 * u * tt * (p1 + Vector3.down * height); // 3 * (1-t) * t^2 * (p1 + height * down vector)
+        p += ttt * p1; // t^3 * p1
+
+        return p;
+    }
+    public void TogglePlacement() {
+        var logId = "TogglePlacement";
+        logd(logId, "TogglePlacement to "+_isPlacingBlock);
+        IsPlacingBlock = !_isPlacingBlock;
     }
     public Transform RightHandOrigin;
     public float rayLength = 10f;
-    public void OnRightTriggerPressed() {
-        if (IsPlacingBlock && previewBlock.CanBePlaced) {
-            PlaceBlock();
+    public void PlaceBlock() {
+        if (IsPlacingBlock && previewBlock.InValidPosition) {
+            IsPlacingBlock = false;
+            Instantiate(blockPrefab, previewBlock.transform.position, Quaternion.identity);
+            OnBlockPlaced?.Invoke();
         }
-    }
-    public void OnRightTriggerReleased() {
-        if (IsPlacingBlock && previewBlock.CanBePlaced) {
-            PlaceBlock();
-        }
-    }
-    void PlaceBlock() {
-        IsPlacingBlock = false;
-        Instantiate(blockPrefab, previewBlock.transform.position, Quaternion.identity);
-        OnBlockPlaced?.Invoke();
     }
     private void HandlePreviewPosition() {
         var logId = "HandlePreviewPosition";
         var previewPosition = raycastHit.point;
         var hits = Physics.BoxCastAll(previewPosition, blockSize, Vector3.up);
-        List<GroundBlock> nearbyBlocks = new List<GroundBlock>();
+        List<FarmingBlock> nearbyBlocks = new List<FarmingBlock>();
 
         foreach (var hit in hits) {
-            var block = hit.collider.GetComponentInParent<GroundBlock>();
+            var block = hit.collider.GetComponentInParent<FarmingBlock>();
             if (block) {
                 nearbyBlocks.Add(block);
             }
@@ -109,18 +139,17 @@ public class BlockPlacer : NinjaMonoBehaviour {
             logd(logId, "RayCast=" + raycastHit.collider.name + " => Direction=" + direction, true, 1f);
         }
         previewBlock.transform.position = previewPosition;
-        //previewBlock.CanBePlaced = IsPositionValid(previewPosition, blockSize);
         logd(logId, "RayCast=" + raycastHit.collider.name, true, 1f);
     }
-
-    private GroundBlock GetNearestBlock(Vector3 raycastPoint, List<GroundBlock> nearbyBlocks) {
+    public int numOfCurvePoints = 50;
+    private FarmingBlock GetNearestBlock(Vector3 raycastPoint, List<FarmingBlock> nearbyBlocks) {
         var logId = "GetNearestBlock";
         var nearbyBlocksCount = nearbyBlocks.Count;
         if (nearbyBlocksCount == 0) {
-            logw(logId, "No blocks found => returning null");
+            logw(logId, "No blocks found => returning null", delay: 10f);
             return null;
         }
-        GroundBlock nearestBlock = nearbyBlocks[0];
+        FarmingBlock nearestBlock = nearbyBlocks[0];
         if (nearbyBlocksCount == 1) {
             return nearestBlock;
         }
@@ -136,7 +165,7 @@ public class BlockPlacer : NinjaMonoBehaviour {
         return nearestBlock;
     }
 
-    Vector3 CalculateFinalPosition(GroundBlock nearbyBlock, Vector3 direction) {
+    Vector3 CalculateFinalPosition(FarmingBlock nearbyBlock, Vector3 direction) {
         var logId = "GetFinalPosition";
         var dirX = direction.x;
         var dirZ = direction.z;

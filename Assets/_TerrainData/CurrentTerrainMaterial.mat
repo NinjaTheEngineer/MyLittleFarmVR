@@ -37,8 +37,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: CurrentTerrainMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: 2ea0146f50b90a840b1f693a4c19e4f7,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 2ea0146f50b90a840b1f693a4c19e4f7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -68,18 +67,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ColorBlend:
-        m_Texture: {fileID: 8502864365081339492, guid: c5ca4a96033b28b41ba7afdca9e4fdaf,
-          type: 2}
+        m_Texture: {fileID: 8502864365081339492, guid: c5ca4a96033b28b41ba7afdca9e4fdaf, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ColorByHeight:
-        m_Texture: {fileID: 7215571495650076850, guid: c5ca4a96033b28b41ba7afdca9e4fdaf,
-          type: 2}
+        m_Texture: {fileID: 7215571495650076850, guid: c5ca4a96033b28b41ba7afdca9e4fdaf, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ColorByNormal:
-        m_Texture: {fileID: 7439125688912546406, guid: c5ca4a96033b28b41ba7afdca9e4fdaf,
-          type: 2}
+        m_Texture: {fileID: 7439125688912546406, guid: c5ca4a96033b28b41ba7afdca9e4fdaf, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Control:
@@ -87,8 +83,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Control0:
-        m_Texture: {fileID: 6644569289617994707, guid: 2cb37e60ca334d74fafe0f7d4933e851,
-          type: 2}
+        m_Texture: {fileID: 6644569289617994707, guid: 2cb37e60ca334d74fafe0f7d4933e851, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -108,8 +103,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 5693171470161281448, guid: c5ca4a96033b28b41ba7afdca9e4fdaf,
-          type: 2}
+        m_Texture: {fileID: 5693171470161281448, guid: c5ca4a96033b28b41ba7afdca9e4fdaf, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Mask0:
@@ -129,8 +123,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: -8150590262700123719, guid: c5ca4a96033b28b41ba7afdca9e4fdaf,
-          type: 2}
+        m_Texture: {fileID: -8150590262700123719, guid: c5ca4a96033b28b41ba7afdca9e4fdaf, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Normal0:

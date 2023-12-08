@@ -91,7 +91,7 @@ namespace Pinwheel.Poseidon
             m.SetTriangles(triangles, 0);
             m.SetUVs(0, uvs0);
             m.SetColors(colors);
-            m.name = "Water Mesh";
+            m.name = "Water CurrentMesh";
             m.RecalculateBounds();
             m.RecalculateNormals();
 

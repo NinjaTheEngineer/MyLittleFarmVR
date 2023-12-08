@@ -7,15 +7,15 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class PreviewBlock : NinjaMonoBehaviour {
     [SerializeField] GameObject visu;
-    bool _canBePlaced = true;
-    public bool CanBePlaced {
-        get => _canBePlaced;
+    bool _inValidPosition = true;
+    public bool InValidPosition {
+        get => _inValidPosition;
         private set {
-            if (_canBePlaced == value) {
+            if (_inValidPosition == value) {
                 return;
             }
-            visu.SetActive(value);
-            _canBePlaced = value;
+            _inValidPosition = value;
+            visu.SetActive(_inValidPosition);
         }
     }
     bool _activePreview = false;
@@ -30,7 +30,7 @@ public class PreviewBlock : NinjaMonoBehaviour {
             return;
         }
         collidersTriggered.Add(collider);
-        CanBePlaced = false;
+        InValidPosition = false;
     }
     void RemoveTrigger(Collider collider) {
         if (!collidersTriggered.Contains(collider)) {
@@ -39,7 +39,7 @@ public class PreviewBlock : NinjaMonoBehaviour {
         collidersTriggered.Remove(collider);
         var collidersTriggeredCount = collidersTriggered.Count;
         logd("REMOVE TRIGGER", "Count="+ collidersTriggeredCount);
-        CanBePlaced = collidersTriggeredCount == 0;
+        InValidPosition = collidersTriggeredCount == 0;
     }
 
     private void OnTriggerExit(Collider other) {
@@ -47,7 +47,7 @@ public class PreviewBlock : NinjaMonoBehaviour {
         logd(logId, "Other=" + other.name);
         RemoveTrigger(other);
     }
-    public void SetActivePreview(bool isActive) {
-        CanBePlaced = isActive;
+    public void Show(bool isActive) {
+        InValidPosition = isActive;
     }
 }

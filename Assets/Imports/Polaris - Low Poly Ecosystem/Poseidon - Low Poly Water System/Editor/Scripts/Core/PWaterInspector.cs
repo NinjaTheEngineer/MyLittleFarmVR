@@ -223,7 +223,7 @@ namespace Pinwheel.Poseidon
 
         private void DrawMeshSettingsGUI()
         {
-            string label = "Mesh";
+            string label = "CurrentMesh";
             string id = "water-profile-mesh";
             GenericMenu menu = new GenericMenu();
             menu.AddItem(
@@ -258,7 +258,7 @@ namespace Pinwheel.Poseidon
             {
                 EditorGUI.BeginChangeCheck();
                 //water.MeshType = (PWaterMeshType)EditorGUILayout.EnumPopup("Mesh Type", water.MeshType);
-                water.MeshType = (PWaterMeshType)EditorGUILayout.IntPopup("Mesh Type", (int)water.MeshType, meshTypeLabels, meshTypes);
+                water.MeshType = (PWaterMeshType)EditorGUILayout.IntPopup("CurrentMesh Type", (int)water.MeshType, meshTypeLabels, meshTypes);
                 water.PlanePattern = (PPlaneMeshPattern)EditorGUILayout.EnumPopup("Pattern", water.PlanePattern);
                 water.MeshResolution = EditorGUILayout.DelayedIntField("Resolution", water.MeshResolution);
                 if (EditorGUI.EndChangeCheck())
@@ -316,7 +316,7 @@ namespace Pinwheel.Poseidon
             {
                 EditorGUI.BeginChangeCheck();
                 //water.MeshType = (PWaterMeshType)EditorGUILayout.EnumPopup("Mesh Type", water.MeshType);
-                water.MeshType = (PWaterMeshType)EditorGUILayout.IntPopup("Mesh Type", (int)water.MeshType, meshTypeLabels, meshTypes);
+                water.MeshType = (PWaterMeshType)EditorGUILayout.IntPopup("CurrentMesh Type", (int)water.MeshType, meshTypeLabels, meshTypes);
                 water.MeshResolution = EditorGUILayout.DelayedIntField("Resolution", water.MeshResolution);
                 if (EditorGUI.EndChangeCheck())
                 {
@@ -366,7 +366,7 @@ namespace Pinwheel.Poseidon
             {
                 EditorGUI.BeginChangeCheck();
                 //water.MeshType = (PWaterMeshType)EditorGUILayout.EnumPopup("Mesh Type", water.MeshType);
-                water.MeshType = (PWaterMeshType)EditorGUILayout.IntPopup("Mesh Type", (int)water.MeshType, meshTypeLabels, meshTypes);
+                water.MeshType = (PWaterMeshType)EditorGUILayout.IntPopup("CurrentMesh Type", (int)water.MeshType, meshTypeLabels, meshTypes);
                 water.SplineResolutionX = EditorGUILayout.DelayedIntField("Resolution X", water.SplineResolutionX);
                 water.SplineResolutionY = EditorGUILayout.DelayedIntField("Resolution Y", water.SplineResolutionY);
                 water.SplineWidth = EditorGUILayout.DelayedFloatField("Width", water.SplineWidth);
@@ -489,8 +489,8 @@ namespace Pinwheel.Poseidon
         {
             EditorGUI.BeginChangeCheck();
             //water.MeshType = (PWaterMeshType)EditorGUILayout.EnumPopup("Mesh Type", water.MeshType);
-            water.MeshType = (PWaterMeshType)EditorGUILayout.IntPopup("Mesh Type", (int)water.MeshType, meshTypeLabels, meshTypes);
-            water.SourceMesh = EditorGUILayout.ObjectField("Source Mesh", water.SourceMesh, typeof(Mesh), false) as Mesh;
+            water.MeshType = (PWaterMeshType)EditorGUILayout.IntPopup("CurrentMesh Type", (int)water.MeshType, meshTypeLabels, meshTypes);
+            water.SourceMesh = EditorGUILayout.ObjectField("Source CurrentMesh", water.SourceMesh, typeof(Mesh), false) as Mesh;
             if (EditorGUI.EndChangeCheck())
             {
                 if (water.SourceMesh != null)

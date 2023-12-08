@@ -109,7 +109,7 @@ namespace HurricaneVR.Framework.ControllerInput
                 Destroy(this);
                 return;
             }
-
+            /*
             //testing...
             LeftGripActivated.AddListener(() => { Debug.Log("LeftGripActivated"); });
             LeftGripDeactivated.AddListener(() => { Debug.Log("LeftGripDeactivated"); });
@@ -179,6 +179,7 @@ namespace HurricaneVR.Framework.ControllerInput
             LeftTrackPadDownDeactivated.AddListener(() => { Debug.Log("LeftTrackPadDownDeactivated"); });
             RightTrackPadDownActivated.AddListener(() => { Debug.Log("RightTrackPadDownActivated"); });
             RightTrackPadDownDeactivated.AddListener(() => { Debug.Log("RightTrackPadDownDeactivated"); });
+            */
 
         }
 
