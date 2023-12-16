@@ -68,9 +68,7 @@ public class HeightMapPainter : NinjaMonoBehaviour {
             return;
         }
 
-        if (Time.realtimeSinceStartup - lastPaintTime < paintDelay) {
-            return;
-        }
+        progressMeter.Increment();
 
         Vector3[] vertices = mesh.vertices;
         var verticesCount = vertices.Length;
@@ -124,7 +122,6 @@ public class HeightMapPainter : NinjaMonoBehaviour {
             logw(logId, "No vertices changed => no-op");
             return;
         }
-        progressMeter.Increment();
         mesh.vertices = vertices;
         mesh.RecalculateBounds();
         Debug.Log("Changed mesh for " + contactsCount + " contact points");

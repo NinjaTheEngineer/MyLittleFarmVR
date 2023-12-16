@@ -15,7 +15,7 @@ public class SeedBag : NinjaMonoBehaviour
         StartCoroutine(DropSeedsRoutine());
     }
     IEnumerator DropSeedsRoutine() {
-        var logId = "DropSeedsRoutine";
+        var logId = "UpdateStatusRoutine";
         var waitForSeconds = new WaitForSeconds(seedDropDelay);
         while(true) {
             if(droppingSeed) {

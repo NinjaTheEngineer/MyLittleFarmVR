@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace NinjaTools {
     public abstract class StateManager<EState> : NinjaMonoBehaviour where EState : Enum {
-        protected Dictionary<EState, BaseState<EState>> States = new Dictionary<EState, BaseState<EState>>();
-        protected BaseState<EState> CurrentState;
-        protected bool IsTransitioningState = false;
+        [SerializeField] protected Dictionary<EState, BaseState<EState>> States = new Dictionary<EState, BaseState<EState>>();
+        [SerializeField] protected BaseState<EState> CurrentState;
+        [SerializeField] protected bool IsTransitioningState = false;
         void Start() {
             var logId = "Start";
             logd(logId," Starting from stateManager");
@@ -38,14 +38,23 @@ namespace NinjaTools {
             OnStateChange(stateKey);
             IsTransitioningState = false;
         }
-        void OnTriggerEnter(Collider other){
+        void OnTriggerEnter(Collider other) {
             CurrentState.OnTriggerEnter(other);
-         }
+        }
         void OnTriggerStay(Collider other) {
             CurrentState.OnTriggerStay(other);
         }
         void OnTriggerExit(Collider other) {
             CurrentState.OnTriggerExit(other);
+        }
+        void OnCollisionEnter(Collision other) {
+            CurrentState.OnCollisionEnter(other);
+        }
+        void OnCollisionStay(Collision other) {
+            CurrentState.OnCollisionStay(other);
+        }
+        void OnCollisionExit(Collision other) {
+            CurrentState.OnCollisionExit(other);
         }
         public abstract void OnStateChange(EState state);
     }

@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 
 namespace NinjaTools {
+    [Serializable]
     public abstract class BaseState<EState> where EState : Enum {
         public BaseState(EState key) {
             StateKey = key;
@@ -16,5 +17,8 @@ namespace NinjaTools {
         public abstract void OnTriggerEnter(Collider other);
         public abstract void OnTriggerStay(Collider other);
         public abstract void OnTriggerExit(Collider other);
+        public abstract void OnCollisionEnter(Collision collision);
+        public abstract void OnCollisionStay(Collision collision);
+        public abstract void OnCollisionExit(Collision collision);
     }
 }

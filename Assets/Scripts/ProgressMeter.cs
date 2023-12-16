@@ -9,7 +9,7 @@ public class ProgressMeter : NinjaMonoBehaviour {
     [SerializeField] float fillRate = 0.05f;
     [SerializeField] Image fillImage;
     [field: SerializeField] public bool IsComplete => currentCapacity >= maxCapacity;
-    public static Action OnComplete;
+    public Action OnComplete;
     private void Start() {
         currentCapacity = 0;
         fillImage.fillAmount = 0;
@@ -29,9 +29,12 @@ public class ProgressMeter : NinjaMonoBehaviour {
         fillImage.fillAmount = currentCapacity / maxCapacity;
     }
 
-    public void SetProgressMeter(float maxCap = 100f, float startCap = 0f, float fillRate = 0.5f) {
+    public void SetProgressMeter(float maxCap = 100f, float startValue = 0f, float fillRate = 0.5f) {
+        var logId = "SetProgressMeter";
+        logd(logId, "Setting MaxCap=" + maxCap + " StartValue=" + startValue + " FillRate=" + fillRate);
         maxCapacity = maxCap;
-        currentCapacity = startCap;
+        currentCapacity = startValue;
         this.fillRate = fillRate;
+        fillImage.fillAmount = 0;
     }
 }
