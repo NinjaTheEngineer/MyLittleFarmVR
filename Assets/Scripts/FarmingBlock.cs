@@ -4,13 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public enum FarmingBlockState {
-    Placed, Worked, Wet, Planted, PlantedWet, ReadyToHarvest
+    Placed, Worked, Planted, Wet, ReadyToHarvest
 }
 [SelectionBase]
 public class FarmingBlock : NinjaMonoBehaviour {
     public FarmingBlockState initialState;
     [field: SerializeField] public FarmingBlockState CurrentState { get; private set; }
-    public bool IsPlanted => CurrentState == FarmingBlockState.Planted || CurrentState == FarmingBlockState.PlantedWet;
+    public bool IsPlanted => CurrentState == FarmingBlockState.Planted;
     public bool IsWorked => CurrentState == FarmingBlockState.Worked;
     [field: SerializeField] public ProgressMeter ProgressMeter { get; private set; }
     public Mesh CurrentMesh { get; private set; }

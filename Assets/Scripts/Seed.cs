@@ -1,17 +1,9 @@
 ﻿using NinjaTools;
-using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public enum SeedState {
     Free, Disabled, Sticking, Sticked, Planted, Growing, Grown
-}
-[CreateAssetMenu(fileName ="SeedConfig", menuName ="ScriptableObjects/Create New Seed Config")]
-public class SeedConfig : ScriptableObject {
-    public GameObject cropPrefab;
-    public float initialY = -0.5f;
-    public float maxY = 1f;
-    public float growthTime = 90f;
 }
 
 [SelectionBase]
@@ -19,10 +11,12 @@ public class Seed : StateManager<SeedState> {
     [SerializeField] Rigidbody rb;
     [field: SerializeField] public float StickingDelay { get; private set; }
     [field: SerializeField] public float DisappearDelay { get; private set; }
+    [field: SerializeField] public float GrowDelay { get; private set; }
     [field: SerializeField] public SeedConfig SeedConfig { get; private set; }
     
     [SerializeField] FarmingBlock farmingBlock;
-    [SerializeField] SeedState _CurrentState;
+    [SerializeField] SeedState currentState;
+    [SerializeField] GameObject visu;
     
     private void Awake() {
         States.Add(SeedState.Free, new Free(SeedState.Free, this));
@@ -30,8 +24,15 @@ public class Seed : StateManager<SeedState> {
         States.Add(SeedState.Sticking, new Sticking(SeedState.Sticking, this));
         States.Add(SeedState.Sticked, new Sticked(SeedState.Sticked, this));
         States.Add(SeedState.Planted, new Planted(SeedState.Planted, this));
-        _CurrentState = SeedState.Free;
-        CurrentState = States[_CurrentState];
+        States.Add(SeedState.Growing, new Growing(SeedState.Growing, this));
+        States.Add(SeedState.Grown, new Grown(SeedState.Grown, this));
+        currentState = SeedState.Free;
+        CurrentState = States[currentState];
+    }
+    private void Start() {
+        var logId = "Start";
+        GrowDelay = Random.Range(1, SeedConfig.maxGrowDelay);
+        logd(logId, "GrowDelay="+GrowDelay);
     }
     public void DestroySelf() {
         Destroy(gameObject);
@@ -47,11 +48,17 @@ public class Seed : StateManager<SeedState> {
 
     void FarmBlockPlanted() {
         farmingBlock.OnPlanted -= FarmBlockPlanted;
+        HideSeed();
         TransitionToState(SeedState.Planted);
     }
     
     public override void OnStateChange(SeedState state) {
         var logId = "OnStateChange";
-        _CurrentState = state;
+        currentState = state;
     }
+    void HideSeed() {
+        visu.SetActive(false);
+    }
+
+    public void SetKinematic(bool isKinematic) => rb.isKinematic = isKinematic;
 }

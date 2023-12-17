@@ -45,6 +45,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turnip_Plant
       objectReference: {fileID: 0}
+    - target: {fileID: 1000013676697600, guid: 61b0f6b970bd324438f2ffc56c6ddf14, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4000013084491326, guid: 61b0f6b970bd324438f2ffc56c6ddf14, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.171
@@ -108,12 +112,24 @@ PrefabInstance:
       value: Turnip_Fruit
       objectReference: {fileID: 0}
     - target: {fileID: 4000013812120868, guid: becd827951d0b4046808ba97418ecf28, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013812120868, guid: becd827951d0b4046808ba97418ecf28, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013812120868, guid: becd827951d0b4046808ba97418ecf28, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013812120868, guid: becd827951d0b4046808ba97418ecf28, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.01
       objectReference: {fileID: 0}
     - target: {fileID: 4000013812120868, guid: becd827951d0b4046808ba97418ecf28, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.173
+      value: 0.042
       objectReference: {fileID: 0}
     - target: {fileID: 4000013812120868, guid: becd827951d0b4046808ba97418ecf28, type: 3}
       propertyPath: m_LocalPosition.z

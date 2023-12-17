@@ -16,6 +16,9 @@ public class WaterParticleCollision : NinjaMonoBehaviour
 
     private void OnParticleCollision(GameObject other) {
         var logId = "OnParticleCollision";
+        if(transform.parent==other) {
+            return;
+        }
         var farmingBlock = other.GetComponent<FarmingBlock>();
         if(farmingBlock==null || !farmingBlock.IsPlanted) {
             return;

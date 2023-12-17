@@ -9,7 +9,6 @@ public class Free : BaseState<SeedState> {
     public Free(SeedState key, Seed seed) : base(key) {
         var logId = "Free_ctor";
         _seed = seed;
-        Utils.logd(logId, "Initialized!");
     }
 
     public override void EnterState() {

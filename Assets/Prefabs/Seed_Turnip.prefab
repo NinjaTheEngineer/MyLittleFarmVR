@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 1765428836712457351}
   - component: {fileID: 8175447074695665175}
   m_Layer: 0
-  m_Name: Seed
+  m_Name: Seed_Turnip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,8 +156,12 @@ MonoBehaviour:
   rb: {fileID: 8175447074695665175}
   <StickingDelay>k__BackingField: 2
   <DisappearDelay>k__BackingField: 3
+  <GrowDelay>k__BackingField: 0
+  <SeedConfig>k__BackingField: {fileID: 11400000, guid: 8fbf4751b3c296c4d8bfd421e53386d2, type: 2}
   farmingBlock: {fileID: 0}
-  _CurrentState: 0
+  currentState: 0
+  visu: {fileID: 4763774067790173094}
+  maxGrowDelay: 0
 --- !u!54 &8175447074695665175
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -167,7 +171,7 @@ Rigidbody:
   m_GameObject: {fileID: 6568292916652679809}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0.01
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
@@ -178,10 +182,10 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
+  m_ImplicitCom: 0
+  m_ImplicitTensor: 0
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 3
+  m_CollisionDetection: 2
