@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class HeightMapPainter : NinjaMonoBehaviour {
     [Range(0.05f, 3f)]

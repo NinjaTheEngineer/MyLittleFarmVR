@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NinjaTools;
-using UnityEngine.Rendering.HighDefinition;
-using System.Data;
 
 public class Sun : NinjaMonoBehaviour {
     [SerializeField] Light light;

@@ -11,6 +11,7 @@ using static UnityEngine.GraphicsBuffer;
 using UnityEngine.XR;
 using TMPro;
 using System.Net;
+using System.Threading.Tasks;
 
 public class BlockPlacer : NinjaMonoBehaviour {
     public GameObject blockPrefab;
@@ -25,6 +26,8 @@ public class BlockPlacer : NinjaMonoBehaviour {
     public bool IsPlacingBlock {
         get => _isPlacingBlock;
         private set {
+            var logId = "IsPlacingBlock_set";
+            logd(logId, "Setting IsPlacingBlock from " + _isPlacingBlock + " to " + value);
             _isPlacingBlock = value;
             if (_isPlacingBlock) {
                 lineRenderer.positionCount = numOfCurvePoints;
@@ -80,10 +83,10 @@ public class BlockPlacer : NinjaMonoBehaviour {
     void GenerateCurve(Vector3 startPos, Vector3 endPos) {
         lineRenderer.positionCount = numOfCurvePoints; // Adjust the number of points as needed
 
-        Vector3[] positions = new Vector3[lineRenderer.positionCount];
+        Vector3[] positions = new Vector3[numOfCurvePoints];
 
-        for (int i = 0; i < lineRenderer.positionCount; i++) {
-            float t = i / (float)(lineRenderer.positionCount - 1);
+        for (int i = 0; i < numOfCurvePoints; i++) {
+            float t = i / (float)(numOfCurvePoints - 1);
             positions[i] = CalculateBezierPoint(t, startPos, endPos, curveHeight);
         }
 
@@ -112,12 +115,29 @@ public class BlockPlacer : NinjaMonoBehaviour {
     public Transform RightHandOrigin;
     public float rayLength = 10f;
     public void PlaceBlock() {
+        var logId = "PlaceBlock";
         if (IsPlacingBlock && previewBlock.InValidPosition) {
             IsPlacingBlock = false;
             Instantiate(blockPrefab, previewBlock.transform.position, Quaternion.identity);
+            logd(logId, "Placing Block!");
             OnBlockPlaced?.Invoke();
+            HVRControllerEvents.Instance.RightTriggerActivated.RemoveListener(PlaceBlock);
+            HVRControllerEvents.Instance.LeftTriggerActivated.RemoveListener(PlaceBlock);
+        } else {
+            logw(logId, "Could not place block.");
+        }
+
+    }
+    public async void StartPlacement(bool isLeftHand) {
+        IsPlacingBlock = true;
+        await Task.Delay(1000);
+        if(isLeftHand) {
+            HVRControllerEvents.Instance.RightTriggerActivated.AddListener(PlaceBlock);
+        } else {
+            HVRControllerEvents.Instance.LeftTriggerActivated.AddListener(PlaceBlock);
         }
     }
+
     private void HandlePreviewPosition() {
         var logId = "HandlePreviewPosition";
         var previewPosition = raycastHit.point;
