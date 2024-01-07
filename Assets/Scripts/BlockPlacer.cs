@@ -21,7 +21,8 @@ public class BlockPlacer : NinjaMonoBehaviour {
     PreviewBlock previewBlock;
     bool _isPlacingBlock = false;
 
-    public static Action OnPlacementStart;
+    public static Action OnPlacementStarted;
+    public static Action OnPlacementCancelled;
     public static Action OnBlockPlaced;
     public bool IsPlacingBlock {
         get => _isPlacingBlock;
@@ -31,9 +32,10 @@ public class BlockPlacer : NinjaMonoBehaviour {
             _isPlacingBlock = value;
             if (_isPlacingBlock) {
                 lineRenderer.positionCount = numOfCurvePoints;
-                OnPlacementStart?.Invoke();
+                OnPlacementStarted?.Invoke();
             } else {
                 lineRenderer.positionCount = 0;
+                OnPlacementCancelled?.Invoke();
             }
             
             previewBlock.Show(_isPlacingBlock);
@@ -87,26 +89,12 @@ public class BlockPlacer : NinjaMonoBehaviour {
 
         for (int i = 0; i < numOfCurvePoints; i++) {
             float t = i / (float)(numOfCurvePoints - 1);
-            positions[i] = CalculateBezierPoint(t, startPos, endPos, curveHeight);
+            positions[i] = NMaths.CalculateBezierPoint(t, startPos, endPos, curveHeight);
         }
 
         lineRenderer.SetPositions(positions);
     }
-
-    Vector3 CalculateBezierPoint(float t, Vector3 p0, Vector3 p1, float height) {
-        float u = 1 - t;
-        float tt = t * t;
-        float uu = u * u;
-        float uuu = uu * u;
-        float ttt = tt * t;
-
-        Vector3 p = uuu * p0; // (1-t)^3 * p0
-        p += 3 * uu * t * (p0 + Vector3.down * height); // 3 * (1-t)^2 * t * (p0 + height * down vector)
-        p += 3 * u * tt * (p1 + Vector3.down * height); // 3 * (1-t) * t^2 * (p1 + height * down vector)
-        p += ttt * p1; // t^3 * p1
-
-        return p;
-    }
+    
     public void TogglePlacement() {
         var logId = "TogglePlacement";
         logd(logId, "TogglePlacement to "+_isPlacingBlock);

@@ -1,4 +1,5 @@
-﻿using NinjaTools;
+﻿using HurricaneVR.Framework.Core;
+using NinjaTools;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class Seed : StateManager<SeedState> {
     [field: SerializeField] public float DisappearDelay { get; private set; }
     [field: SerializeField] public float GrowDelay { get; private set; }
     [field: SerializeField] public SeedConfig SeedConfig { get; private set; }
+    [field: SerializeField] public HVRGrabbable VRGrabbable { get; private set; }
     
     [SerializeField] FarmingBlock farmingBlock;
     [SerializeField] SeedState currentState;
@@ -51,7 +53,7 @@ public class Seed : StateManager<SeedState> {
         HideSeed();
         TransitionToState(SeedState.Planted);
     }
-    
+
     public override void OnStateChange(SeedState state) {
         var logId = "OnStateChange";
         currentState = state;

@@ -16,11 +16,13 @@ public class HVRMediator : NinjaMonoBehaviour {
     }
 
     void OnEnable() {
-        BlockPlacer.OnPlacementStart += DisableForceGrabbers;
+        BlockPlacer.OnPlacementStarted += DisableForceGrabbers;
+        BlockPlacer.OnPlacementCancelled += EnableForceGrabbers;
         BlockPlacer.OnBlockPlaced += EnableForceGrabbers;
     }
     void OnDisable() {
-        BlockPlacer.OnPlacementStart -= DisableForceGrabbers;
+        BlockPlacer.OnPlacementStarted -= DisableForceGrabbers;
+        BlockPlacer.OnPlacementCancelled -= EnableForceGrabbers;
         BlockPlacer.OnBlockPlaced -= EnableForceGrabbers;
     }
     public void EnableForceGrabbers() {
