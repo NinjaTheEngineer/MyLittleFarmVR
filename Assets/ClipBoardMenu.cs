@@ -1,18 +1,14 @@
+using HurricaneVR.Framework.Core.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClipBoardMenu : MonoBehaviour
+public class ClipBoardMenu : WorldSpaceCanvas
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public void OnGrab() {
+        HVRInputModule.Instance.AddCanvas(canvas);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void OnRelease() {
+        HVRInputModule.Instance.RemoveCanvas(canvas);
     }
 }
