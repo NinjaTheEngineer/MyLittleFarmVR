@@ -9676,6 +9676,11 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.0075
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &912542521 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8796523426544585353, guid: eaa168569d0f16a43964e461621ef966, type: 3}
+  m_PrefabInstance: {fileID: 1277142568}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &913107357
 GameObject:
   m_ObjectHideFlags: 0
@@ -13087,6 +13092,14 @@ PrefabInstance:
       propertyPath: m_Parameters.widthMultiplier
       value: 0.015
       objectReference: {fileID: 0}
+    - target: {fileID: 4293241364242312225, guid: b8258dddc8fcb7640ac09e7108b69d95, type: 3}
+      propertyPath: m_Radius
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5132800235457973116, guid: b8258dddc8fcb7640ac09e7108b69d95, type: 3}
+      propertyPath: m_Radius
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6030809671087811287, guid: b8258dddc8fcb7640ac09e7108b69d95, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
@@ -13645,7 +13658,15 @@ PrefabInstance:
     - target: {fileID: 6947788741233052950, guid: eaa168569d0f16a43964e461621ef966, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 1277142570}
+    - target: {fileID: 6947788741233052950, guid: eaa168569d0f16a43964e461621ef966, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnExitButtonClick
       objectReference: {fileID: 0}
+    - target: {fileID: 7464014120395127146, guid: eaa168569d0f16a43964e461621ef966, type: 3}
+      propertyPath: exitConfirmationMenu
+      value: 
+      objectReference: {fileID: 912542521}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13656,6 +13677,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5392253924588586339, guid: eaa168569d0f16a43964e461621ef966, type: 3}
   m_PrefabInstance: {fileID: 1277142568}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1277142570 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7464014120395127146, guid: eaa168569d0f16a43964e461621ef966, type: 3}
+  m_PrefabInstance: {fileID: 1277142568}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3933d8ffd51b15841835c2d4185c16a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1284920432
 PrefabInstance:
   m_ObjectHideFlags: 0

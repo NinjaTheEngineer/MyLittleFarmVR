@@ -42,6 +42,13 @@ namespace HurricaneVR.TechDemo.Scripts
 
         private bool Paused;
 
+        private void OnEnable() {
+            if(initialized) {
+                SetupCameraTransform();
+                StartCoroutine(CloseMenuRoutine());
+            }
+        }
+
         void Start()
         {
             if (!Player)
@@ -87,16 +94,22 @@ namespace HurricaneVR.TechDemo.Scripts
 
             LeftForce = Player.transform.root.GetComponentsInChildren<HVRForceGrabber>().FirstOrDefault(e => e.HandSide == HVRHandSide.Left);
             RightForce = Player.transform.root.GetComponentsInChildren<HVRForceGrabber>().FirstOrDefault(e => e.HandSide == HVRHandSide.Right);
-            SetupCameraTransform();
             UpdateLeftForceButton();
             UpdateRightForceButton();
+            if(initialized) {
+                return;
+            }
+            initialized = true;
+            SetupCameraTransform();
             StartCoroutine(CloseMenuRoutine());
         }
-
+        bool initialized = false;
+        public float heightOffSet = 0.5f;
         public void SetupCameraTransform() {
-            var cameraDir = CameraRig.transform.forward;
-            transform.position = CameraRig.transform.position + cameraDir * 2f;
-            transform.forward = -cameraDir;
+            var camTransform = CameraRig.Camera.transform;
+            var cameraDir = camTransform.forward;
+            transform.position = camTransform.position + cameraDir * 2f + Vector3.up * heightOffSet;
+            transform.forward = cameraDir;
         }
 
 
@@ -110,10 +123,12 @@ namespace HurricaneVR.TechDemo.Scripts
             }
         }
         public float closeAngle = 70f;
+        public float angle;
         private void CheckMenuFacing() {
-            var cameraDir = CameraRig.transform.forward;
-            var menuDir = transform.position - CameraRig.transform.position;
-            var angle = Vector3.Angle(cameraDir, menuDir);
+            var camTransform = CameraRig.Camera.transform;
+            var cameraDir = camTransform.forward;
+            var menuDir = transform.position - camTransform.position;
+            angle = Vector3.Angle(cameraDir, menuDir);
             if(angle > closeAngle) {
                 gameObject.SetActive(false);
             }

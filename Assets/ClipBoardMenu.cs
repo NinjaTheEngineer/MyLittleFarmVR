@@ -29,7 +29,12 @@ public class ClipBoardMenu : WorldSpaceCanvas {
     public void OnOptionsButtonClick() {
         if (_optionsMenu == null) {
             _optionsMenu = Instantiate(optionsMenu);
+            return;
         }
+        if(_optionsMenu.activeSelf) {
+            return;
+        }
+        _optionsMenu.SetActive(true);
     }
 
     public void OnExitButtonClick() {
