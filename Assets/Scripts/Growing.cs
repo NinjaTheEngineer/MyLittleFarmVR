@@ -30,8 +30,14 @@ public class Growing : BaseState<SeedState> {
         }
         return SeedState.Growing;
     }
-
-    public override void UpdateState() { }
+    float checkWetMeterDelay = 1f;
+    float lastCheckTime;
+    public override void UpdateState() {
+        if(lastCheckTime-Time.realtimeSinceStartup > checkWetMeterDelay) {
+            lastCheckTime = Time.realtimeSinceStartup;
+            scaleUpDo.timeScale = _seed.WetMeter/100f;
+        }
+    }
 
     public override void OnCollisionEnter(Collision collision) {
         var logId = "OnCollisionEnter";

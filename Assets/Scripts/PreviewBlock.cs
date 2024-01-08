@@ -8,6 +8,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class PreviewBlock : NinjaMonoBehaviour {
     [SerializeField] GameObject visu;
     bool _inValidPosition = true;
+    bool shouldBeVisible = true;
     public bool InValidPosition {
         get => _inValidPosition;
         private set {
@@ -39,7 +40,7 @@ public class PreviewBlock : NinjaMonoBehaviour {
         collidersTriggered.Remove(collider);
         var collidersTriggeredCount = collidersTriggered.Count;
         logd("REMOVE TRIGGER", "Count="+ collidersTriggeredCount);
-        InValidPosition = collidersTriggeredCount == 0;
+        InValidPosition = shouldBeVisible && collidersTriggeredCount == 0;
     }
 
     private void OnTriggerExit(Collider other) {
@@ -47,7 +48,8 @@ public class PreviewBlock : NinjaMonoBehaviour {
         logd(logId, "Other=" + other.name);
         RemoveTrigger(other);
     }
-    public void Show(bool isActive) {
-        InValidPosition = isActive;
+    public void Show(bool isShown) {
+        shouldBeVisible = isShown;
+        InValidPosition = isShown;
     }
 }

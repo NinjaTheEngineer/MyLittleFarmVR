@@ -13,13 +13,14 @@ public class Seed : StateManager<SeedState> {
     [field: SerializeField] public float StickingDelay { get; private set; }
     [field: SerializeField] public float DisappearDelay { get; private set; }
     [field: SerializeField] public float GrowDelay { get; private set; }
+    [field: SerializeField] public float WetMeter { get; private set; } 
     [field: SerializeField] public SeedConfig SeedConfig { get; private set; }
     [field: SerializeField] public HVRGrabbable VRGrabbable { get; private set; }
-    
+
     [SerializeField] FarmingBlock farmingBlock;
     [SerializeField] SeedState currentState;
     [SerializeField] GameObject visu;
-    
+
     private void Awake() {
         States.Add(SeedState.Free, new Free(SeedState.Free, this));
         States.Add(SeedState.Disabled, new Disabled(SeedState.Disabled, this));
@@ -28,13 +29,15 @@ public class Seed : StateManager<SeedState> {
         States.Add(SeedState.Planted, new Planted(SeedState.Planted, this));
         States.Add(SeedState.Growing, new Growing(SeedState.Growing, this));
         States.Add(SeedState.Grown, new Grown(SeedState.Grown, this));
-        currentState = SeedState.Free;
-        CurrentState = States[currentState];
     }
-    private void Start() {
-        var logId = "Start";
-        GrowDelay = Random.Range(1, SeedConfig.maxGrowDelay);
-        logd(logId, "GrowDelay="+GrowDelay);
+    public void SetConfiguration(SeedConfig seedConfig) {
+        var logId = "SetConfiguration";
+        SeedConfig = seedConfig;
+        var maxGrowDelay = seedConfig.maxGrowDelay;
+        GrowDelay = Random.Range(maxGrowDelay / 2f, maxGrowDelay);
+
+        CurrentState = States[currentState];
+        logd(logId, "CurrentState="+currentState+" SeedConfig=" + SeedConfig.logf() + " GrowDelay = " + GrowDelay);
     }
     public void DestroySelf() {
         Destroy(gameObject);
@@ -63,4 +66,5 @@ public class Seed : StateManager<SeedState> {
     }
 
     public void SetKinematic(bool isKinematic) => rb.isKinematic = isKinematic;
+
 }

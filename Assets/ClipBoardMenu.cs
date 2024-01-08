@@ -1,14 +1,21 @@
 using HurricaneVR.Framework.Core.UI;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ClipBoardMenu : WorldSpaceCanvas {
     public GameObject exitConfirmationMenu;
     public GameObject optionsMenu;
+    public TextMeshProUGUI goldAmountText;
     GameObject _optionsMenu;
     private void Start() {
         exitConfirmationMenu.SetActive(false);
+        GoldSystem.OnGoldChanged += OnGoldChanged;
+    }
+
+    void OnGoldChanged(int goldAmount) {
+        goldAmountText.text = goldAmount.ToString();
     }
 
     public void OnTogglePlaceBlock() {
