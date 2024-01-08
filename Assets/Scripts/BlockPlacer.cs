@@ -14,6 +14,9 @@ using System.Net;
 using System.Threading.Tasks;
 
 public class BlockPlacer : NinjaMonoBehaviour {
+
+    public static BlockPlacer Instance;
+
     public GameObject blockPrefab;
     public PreviewBlock previewPrefab;
     public LayerMask obstacleLayers;
@@ -24,6 +27,7 @@ public class BlockPlacer : NinjaMonoBehaviour {
     public static Action OnPlacementStarted;
     public static Action OnPlacementCancelled;
     public static Action OnBlockPlaced;
+
     public bool IsPlacingBlock {
         get => _isPlacingBlock;
         private set {
@@ -60,6 +64,13 @@ public class BlockPlacer : NinjaMonoBehaviour {
             Gizmos.DrawWireCube(previewBlock.transform.position, blockSize);
         }
     }
+    private void Awake() {
+        if(Instance == null) {
+            Instance = this;
+        } else {
+            Destroy(this);
+        }
+    }
     private void Start() {
         previewBlock = Instantiate(previewPrefab);
         previewBlock.Show(false);
@@ -74,12 +85,13 @@ public class BlockPlacer : NinjaMonoBehaviour {
             GenerateCurve(RightHandOrigin.position, raycastHit.point);
             HandlePreviewPosition();
         }
+        /*
         var buttonActive = HVRGlobalInputs.Instance.RightPrimaryButtonState.Active;
         if (!activeButtonLastFrame && buttonActive) {
             TogglePlacement();
         }
         activeButtonLastFrame = buttonActive;
-
+        */
     }
     public float curveHeight = 0.5f;
     void GenerateCurve(Vector3 startPos, Vector3 endPos) {
@@ -209,5 +221,9 @@ public class BlockPlacer : NinjaMonoBehaviour {
         }
         bool anyChange = changedX || changedY;
         return anyChange ? blockPos : raycastHit.point;
+    }
+
+    public void StopPlacement() {
+        IsPlacingBlock = false;
     }
 }

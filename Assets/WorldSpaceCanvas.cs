@@ -7,12 +7,12 @@ using UnityEngine;
 public class WorldSpaceCanvas : NinjaMonoBehaviour
 {
     public Canvas canvas;
-    public bool alwaysInteractable;
+    public bool isInteractable;
     private void Awake() {
         canvas = canvas ?? GetComponent<Canvas>();
     }
     void Start() {
-        if(alwaysInteractable) {
+        if(isInteractable) {
             HVRInputModule.Instance.AddCanvas(canvas);
         }
     }

@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using HurricaneVR.Framework.ControllerInput;
 using HurricaneVR.Framework.Core;
 using HurricaneVR.Framework.Core.Grabbers;
@@ -84,9 +87,36 @@ namespace HurricaneVR.TechDemo.Scripts
 
             LeftForce = Player.transform.root.GetComponentsInChildren<HVRForceGrabber>().FirstOrDefault(e => e.HandSide == HVRHandSide.Left);
             RightForce = Player.transform.root.GetComponentsInChildren<HVRForceGrabber>().FirstOrDefault(e => e.HandSide == HVRHandSide.Right);
-
+            SetupCameraTransform();
             UpdateLeftForceButton();
             UpdateRightForceButton();
+            StartCoroutine(CloseMenuRoutine());
+        }
+
+        public void SetupCameraTransform() {
+            var cameraDir = CameraRig.transform.forward;
+            transform.position = CameraRig.transform.position + cameraDir * 2f;
+            transform.forward = -cameraDir;
+        }
+
+
+        private IEnumerator CloseMenuRoutine() {
+            //I want to check if the player is facing the menu, and if not, turn it off.
+            
+            var waitForSeconds = new WaitForSeconds(0.5f);
+            while(true) {
+                CheckMenuFacing();
+                yield return waitForSeconds;
+            }
+        }
+        public float closeAngle = 70f;
+        private void CheckMenuFacing() {
+            var cameraDir = CameraRig.transform.forward;
+            var menuDir = transform.position - CameraRig.transform.position;
+            var angle = Vector3.Angle(cameraDir, menuDir);
+            if(angle > closeAngle) {
+                gameObject.SetActive(false);
+            }
         }
 
         private void OnLineGrabTriggerChanged(bool arg0)
