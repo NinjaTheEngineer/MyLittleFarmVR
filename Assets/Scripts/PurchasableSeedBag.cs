@@ -10,8 +10,13 @@ public class PurchasableSeedBag : NinjaMonoBehaviour {
     public GameObject canvas;
     public MeshRenderer meshRenderer;
     Vector3 initPosition;
+    Quaternion initRotation;
     public float purchaseDistance = 1f;
     int price;
+    private void Awake() {
+        initPosition = transform.position;
+        initRotation = transform.rotation;
+    }
     private void Start() {
         price = seedConfig.price;
         priceText.text = price.ToString()+" GOLD";
@@ -31,11 +36,12 @@ public class PurchasableSeedBag : NinjaMonoBehaviour {
         
     }
     public void TryToPurchase() {
-        if(GoldSystem.CurrentGold < price) {
-            transform.position = initPosition;
+        if(GoldSystem.SpendGold(price)) {
+            OnPurchase();
             return;
         }
-        OnPurchase();
+        transform.position = initPosition;    
+        transform.rotation = initRotation;
     }
     public void OnPurchase() {
         var seedBag = gameObject.AddComponent<SeedBag>();

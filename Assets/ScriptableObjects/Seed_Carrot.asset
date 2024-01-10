@@ -15,6 +15,7 @@ MonoBehaviour:
   purchasableBagCrop: {fileID: 1694223022736750, guid: a1a064d8b631749e6bb8f2e7dab980c0, type: 3}
   bagColor: {r: 0.7529412, g: 0.50980395, b: 0.30980393, a: 1}
   price: 10
+  seedPrefab: {fileID: 1765428836712457351, guid: 577acbd4446fb7d4baa3d55df9a6dbb4, type: 3}
   cropPrefab: {fileID: 1694223022736750, guid: fd57ec6ff71f23e4ea50ac710b218eb2, type: 3}
   growScaleEase: 2
   initialGrowScale: {x: 0.05, y: 0.05, z: 0.05}

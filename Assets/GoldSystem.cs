@@ -23,16 +23,16 @@ public class GoldSystem : NinjaMonoBehaviour
         CurrentGold = startingGold;
     }
 
-    public bool SpendGold(int amount) {
+    public static bool SpendGold(int amount) {
         var logId = "SpendGold";
         if (CurrentGold < amount) {
-            logd(logId, "Not enough gold");
+            Utils.logd(logId, "Not enough gold");
             return false;
         }
         CurrentGold -= amount;
         return true;
     }
-    public void AddGold(int amount) {
+    public static void AddGold(int amount) {
         var logId = "AddGold";
         CurrentGold += amount;
     }

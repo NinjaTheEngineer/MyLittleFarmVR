@@ -11,6 +11,7 @@ public class SeedConfig : ScriptableObject {
     public int price = 10;
 
     [Header("Seed Config")]
+    public Seed seedPrefab;
     public GameObject cropPrefab;
     public DG.Tweening.Ease growScaleEase;
     public Vector3 initialGrowScale = new Vector3(0.05f, 0.05f, 0.05f);
