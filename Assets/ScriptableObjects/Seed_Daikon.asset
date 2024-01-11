@@ -10,17 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62e2dbb82c7d1af4caca7fc498099a54, type: 3}
-  m_Name: Seed_Carrot
+  m_Name: Seed_Daikon
   m_EditorClassIdentifier: 
-  purchasableBagCrop: {fileID: 1694223022736750, guid: a1a064d8b631749e6bb8f2e7dab980c0, type: 3}
-  bagColor: {r: 0.7529412, g: 0.50980395, b: 0.30980393, a: 1}
-  price: 10
+  purchasableBagCrop: {fileID: 5287001532445861466, guid: 3750f726eca88be438741754c0f1a212, type: 3}
+  bagColor: {r: 0.9921569, g: 0.9333334, b: 0.78823537, a: 1}
+  price: 20
   seedPrefab: {fileID: 1765428836712457351, guid: 577acbd4446fb7d4baa3d55df9a6dbb4, type: 3}
-  cropPrefab: {fileID: 8890177636711564151, guid: 0cd561c2a1f6b074d9e1a8c166f9f302, type: 3}
+  cropPrefab: {fileID: 1930584620438922355, guid: 7d8f93a50892c1a42a74c266d9b03071, type: 3}
   growScaleEase: 2
   initialGrowScale: {x: 0.05, y: 0.05, z: 0.05}
   initialYOffset: 0.03
   growthTime: 10
   maxGrowDelay: 30
-  seedsAmount: 10
-  seedSellPrice: 1

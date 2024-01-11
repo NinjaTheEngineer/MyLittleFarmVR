@@ -678,7 +678,7 @@ Transform:
   m_GameObject: {fileID: 4830009254243209716}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.14, y: 0.5708, z: -0.255}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -847,7 +847,7 @@ MonoBehaviour:
   - {fileID: 6099375563930952875}
   - {fileID: 9094138288261287074}
   - {fileID: 6181273668984610618}
-  seedConfig: {fileID: 11400000, guid: 8af2de5ec9b32554492ebd83ba27932c, type: 2}
+  defaultSeedConfig: {fileID: 0}
   priceText: {fileID: 7254468564561771986}
   canvas: {fileID: 4629374143073592568}
   meshRenderer: {fileID: 9107360892273479041}

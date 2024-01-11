@@ -85,13 +85,6 @@ public class BlockPlacer : NinjaMonoBehaviour {
             GenerateCurve(RightHandOrigin.position, raycastHit.point);
             HandlePreviewPosition();
         }
-        /*
-        var buttonActive = HVRGlobalInputs.Instance.RightPrimaryButtonState.Active;
-        if (!activeButtonLastFrame && buttonActive) {
-            TogglePlacement();
-        }
-        activeButtonLastFrame = buttonActive;
-        */
     }
     public float curveHeight = 0.5f;
     void GenerateCurve(Vector3 startPos, Vector3 endPos) {
@@ -121,21 +114,12 @@ public class BlockPlacer : NinjaMonoBehaviour {
             Instantiate(blockPrefab, previewBlock.transform.position, Quaternion.identity);
             logd(logId, "Placing Block!");
             OnBlockPlaced?.Invoke();
-            HVRControllerEvents.Instance.RightTriggerActivated.RemoveListener(PlaceBlock);
-            HVRControllerEvents.Instance.LeftTriggerActivated.RemoveListener(PlaceBlock);
+            //HVRControllerEvents.Instance.RightTriggerActivated.RemoveListener(PlaceBlock);
+            //HVRControllerEvents.Instance.LeftTriggerActivated.RemoveListener(PlaceBlock);
         } else {
             logw(logId, "Could not place block.");
         }
 
-    }
-    public async void StartPlacement(bool isLeftHand) {
-        IsPlacingBlock = true;
-        await Task.Delay(1000);
-        if(isLeftHand) {
-            HVRControllerEvents.Instance.RightTriggerActivated.AddListener(PlaceBlock);
-        } else {
-            HVRControllerEvents.Instance.LeftTriggerActivated.AddListener(PlaceBlock);
-        }
     }
 
     private void HandlePreviewPosition() {

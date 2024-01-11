@@ -18,4 +18,7 @@ public class SeedConfig : ScriptableObject {
     public float initialYOffset = 0.1f;
     public float growthTime = 90f;
     public float maxGrowDelay = 20f;
+
+    public int seedsAmount = 10;
+    public int seedSellPrice = 1;
 }
