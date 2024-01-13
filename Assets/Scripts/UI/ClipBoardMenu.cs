@@ -2,6 +2,7 @@ using HurricaneVR.Framework.Core.UI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class ClipBoardMenu : WorldSpaceCanvas {
@@ -9,7 +10,8 @@ public class ClipBoardMenu : WorldSpaceCanvas {
     public GameObject optionsMenu;
     public TextMeshProUGUI goldAmountText;
     GameObject _optionsMenu;
-    private void Start() {
+    protected override void Awake() {
+        base.Awake();
         exitConfirmationMenu.SetActive(false);
         GoldSystem.OnGoldChanged += OnGoldChanged;
     }
@@ -19,11 +21,16 @@ public class ClipBoardMenu : WorldSpaceCanvas {
     }
 
     public void OnTogglePlaceBlock() {
+        if (exitConfirmationMenu.activeSelf) {
+            return;
+        }
         BlockPlacer.Instance.TogglePlacement();
+        AudioManager.Instance.PlaySFX(SoundType.ButtonClick, transform.position);
     }
 
     public void OnSocketed() {
         BlockPlacer.Instance.StopPlacement();
+        AudioManager.Instance.PlaySFX(SoundType.StoreItem, transform.position);
     }
 
     public void OnGrab() {
@@ -34,6 +41,10 @@ public class ClipBoardMenu : WorldSpaceCanvas {
     }
 
     public void OnOptionsButtonClick() {
+        if (exitConfirmationMenu.activeSelf) {
+            return;
+        }
+        AudioManager.Instance.PlaySFX(SoundType.ButtonClick, transform.position);
         if (_optionsMenu == null) {
             _optionsMenu = Instantiate(optionsMenu);
             return;
@@ -48,6 +59,7 @@ public class ClipBoardMenu : WorldSpaceCanvas {
         if (exitConfirmationMenu.activeSelf) {
             return;
         }
+        AudioManager.Instance.PlaySFX(SoundType.ButtonClick, transform.position);
         exitConfirmationMenu.SetActive(true);
     }
 
@@ -56,6 +68,7 @@ public class ClipBoardMenu : WorldSpaceCanvas {
         Application.Quit();
     }
     public void OnDeclineExitClick() {
+        AudioManager.Instance.PlaySFX(SoundType.ButtonClick, transform.position);
         exitConfirmationMenu.SetActive(false);
     }
 }

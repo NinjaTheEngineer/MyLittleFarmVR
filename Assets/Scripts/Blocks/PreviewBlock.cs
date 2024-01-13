@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NinjaTools;
-using System;
-using static UnityEngine.Rendering.DebugUI;
 
 public class PreviewBlock : NinjaMonoBehaviour {
     [SerializeField] GameObject visu;
@@ -12,35 +9,49 @@ public class PreviewBlock : NinjaMonoBehaviour {
     public bool InValidPosition {
         get => _inValidPosition;
         private set {
+            var logId = "InValidPosition_set";
             if (_inValidPosition == value) {
+                logd(logId, "Setting InValidPosition to same value=" + _inValidPosition + " => returning");
                 return;
             }
-            _inValidPosition = value;
+            logd(logId, "Setting InValidPosition from " + _inValidPosition + " to " + value);
+            _inValidPosition = value && shouldBeVisible;
             visu.SetActive(_inValidPosition);
         }
     }
-    bool _activePreview = false;
     private void OnTriggerEnter(Collider other) {
         var logId = "OnTriggerEnter";
         logd(logId, "Other=" + other.name);
         AddTrigger(other);
     }
     List<Collider> collidersTriggered = new List<Collider>();
+    public LayerMask ignoreLayers;
     void AddTrigger(Collider collider) {
-        if(collidersTriggered.Contains(collider)) {
+        var logId = "AddTrigger";
+        if(collider == null) {
+            logw(logId, "Collider is null => returning");
+            return;
+        }
+        if (IsLayerInLayerMask(collider.gameObject.layer, ignoreLayers)) {
+            logd(logId, "Collider=" + collider.logf() + " is in ignoreLayers => returning");
             return;
         }
         collidersTriggered.Add(collider);
         InValidPosition = false;
     }
+    public bool IsLayerInLayerMask(int layer, LayerMask layerMask) {
+        return layerMask == (layerMask | (1 << layer));
+    }
     void RemoveTrigger(Collider collider) {
+        var logId = "RemoveTrigger";
         if (!collidersTriggered.Contains(collider)) {
+            logw(logId, "Collider="+collider.logf()+" is not in list");
             return;
         }
         collidersTriggered.Remove(collider);
         var collidersTriggeredCount = collidersTriggered.Count;
-        logd("REMOVE TRIGGER", "Count="+ collidersTriggeredCount);
-        InValidPosition = shouldBeVisible && collidersTriggeredCount == 0;
+        logd(logId, "collidersTriggeredCount=" + collidersTriggeredCount);
+        InValidPosition = collidersTriggeredCount == 0;
     }
 
     private void OnTriggerExit(Collider other) {

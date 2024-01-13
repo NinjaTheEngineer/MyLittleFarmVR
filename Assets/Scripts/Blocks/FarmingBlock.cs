@@ -38,11 +38,12 @@ public class FarmingBlock : NinjaMonoBehaviour {
             ProgressMeter.OnComplete += SetWorkedGround;
         }
     }
-    public int maxSeeds = 10;
+    public int maxSeeds = 5;
     public void SetWorkedGround() {
         var logId = "SetWorkedGround";
         ChangeState(FarmingBlockState.Worked);
 
+        cropsHarvest = 0;
         ProgressMeter.OnComplete -= SetWorkedGround;
         ProgressMeter.SetProgressMeter(maxSeeds, 0, 1);
         ProgressMeter.OnComplete += SetPlantedGround;
@@ -67,7 +68,6 @@ public class FarmingBlock : NinjaMonoBehaviour {
         ChangeState(FarmingBlockState.Wet);
         meshRenderer.material.color = wetColor;
         ProgressMeter.OnComplete -= SetWetGround;
-
     }
     public void ChangeState(FarmingBlockState newState) {
         var logId = "ChangeState";
@@ -78,4 +78,16 @@ public class FarmingBlock : NinjaMonoBehaviour {
         CurrentState = newState;
     }
     public override string ToString() => "FarmingBlock: CurrentState=" + CurrentState + " ProgressMeter=" + ProgressMeter.logf();
+    int cropsHarvest = 0;
+    void OnCropHarvest(Seed seed) {
+        cropsHarvest++;
+        seed.OnHarvest -= OnCropHarvest;
+        if(cropsHarvest==maxSeeds) {
+            SetWorkedGround();
+        }
+    }
+    public void AddSeed(Seed seed) {
+        ProgressMeter.Increment();
+        seed.OnHarvest += OnCropHarvest;
+    }
 }

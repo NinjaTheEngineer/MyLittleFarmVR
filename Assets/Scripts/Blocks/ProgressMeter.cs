@@ -24,7 +24,9 @@ public class ProgressMeter : NinjaMonoBehaviour {
         if(IsComplete) {
             SetProgressMeter();
             currentCapacity = maxCapacity;
+            gameObject.SetActive(false);
             OnComplete?.Invoke();
+            AudioManager.Instance.PlaySFX(SoundType.ProgressComplete, transform.position);
         }
         fillImage.fillAmount = currentCapacity / maxCapacity;
     }
@@ -32,6 +34,7 @@ public class ProgressMeter : NinjaMonoBehaviour {
     public void SetProgressMeter(float maxCap = 100f, float startValue = 0f, float fillRate = 0.5f) {
         var logId = "SetProgressMeter";
         logd(logId, "Setting MaxCap=" + maxCap + " StartValue=" + startValue + " FillRate=" + fillRate);
+        gameObject.SetActive(true);
         maxCapacity = maxCap;
         currentCapacity = startValue;
         this.fillRate = fillRate;

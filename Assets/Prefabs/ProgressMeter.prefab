@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2114835317194650991}
   - component: {fileID: 1460243777920015011}
   - component: {fileID: 4423023252233621180}
+  - component: {fileID: 1850549542700156642}
   m_Layer: 0
   m_Name: ProgressMeter
   m_TagString: Untagged
@@ -85,7 +86,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &1460243777920015011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,6 +120,18 @@ MonoBehaviour:
   currentCapacity: 0
   fillRate: 0.05
   fillImage: {fileID: 516288912419420438}
+--- !u!114 &1850549542700156642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691288254771031005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9828cffc19477d64db519cb8220321d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2893264144686046358
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ public class WorldSpaceCanvas : NinjaMonoBehaviour
 {
     public Canvas canvas;
     public bool isInteractable;
-    private void Awake() {
+    protected virtual void Awake() {
         canvas = canvas ?? GetComponent<Canvas>();
     }
     void Start() {

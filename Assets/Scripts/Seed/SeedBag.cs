@@ -14,6 +14,7 @@ public class SeedBag : NinjaMonoBehaviour
     public float seedDropDelay = 0.5f;
     public float angle;
     public bool droppingSeed = false;
+    public int seedCount;
     private void Start() {
         if(spawnPoint==null) {
             spawnPoint = GetComponentInChildren<SeedSpawnPoint>().transform;
@@ -21,17 +22,18 @@ public class SeedBag : NinjaMonoBehaviour
         if(seedPrefab==null) {
             seedPrefab = _seedConfig.seedPrefab;
         }
-        StartCoroutine(DropSeedsRoutine());
     }
 
     public void SetSeedConfiguration(SeedConfig seedConfig) {
         _seedConfig = seedConfig;
+        seedCount = seedConfig.seedsAmount;
         seedPrefab = seedConfig.seedPrefab;
-    } 
+        StartCoroutine(DropSeedsRoutine());
+    }
     IEnumerator DropSeedsRoutine() {
         var logId = "UpdateStatusRoutine";
         var waitForSeconds = new WaitForSeconds(seedDropDelay);
-        while(true) {
+        while(seedCount>0) {
             if(droppingSeed) {
                 InstantiateSeed();
             }
@@ -49,6 +51,7 @@ public class SeedBag : NinjaMonoBehaviour
             loge("InstantiateSeed", "Seed=" + seedPrefab.logf() + " SpawnPoint=" + spawnPoint.logf() + " SeedConfig=" + _seedConfig.logf());
             return;
         }
+        seedCount--;
         Instantiate(seedPrefab, spawnPoint.position, Quaternion.identity).SetConfiguration(_seedConfig);
     }
 }

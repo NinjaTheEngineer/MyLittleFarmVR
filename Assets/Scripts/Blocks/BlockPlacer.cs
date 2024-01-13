@@ -113,9 +113,8 @@ public class BlockPlacer : NinjaMonoBehaviour {
             IsPlacingBlock = false;
             Instantiate(blockPrefab, previewBlock.transform.position, Quaternion.identity);
             logd(logId, "Placing Block!");
+            AudioManager.Instance.PlaySFX(SoundType.PlaceBlock, transform.position);
             OnBlockPlaced?.Invoke();
-            //HVRControllerEvents.Instance.RightTriggerActivated.RemoveListener(PlaceBlock);
-            //HVRControllerEvents.Instance.LeftTriggerActivated.RemoveListener(PlaceBlock);
         } else {
             logw(logId, "Could not place block.");
         }

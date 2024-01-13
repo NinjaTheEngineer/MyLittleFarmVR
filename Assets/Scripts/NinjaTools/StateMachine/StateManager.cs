@@ -39,22 +39,22 @@ namespace NinjaTools {
             IsTransitioningState = false;
         }
         void OnTriggerEnter(Collider other) {
-            CurrentState.OnTriggerEnter(other);
+            CurrentState?.OnTriggerEnter(other);
         }
         void OnTriggerStay(Collider other) {
-            CurrentState.OnTriggerStay(other);
+            CurrentState?.OnTriggerStay(other);
         }
         void OnTriggerExit(Collider other) {
-            CurrentState.OnTriggerExit(other);
+            CurrentState?.OnTriggerExit(other);
         }
         void OnCollisionEnter(Collision other) {
-            CurrentState.OnCollisionEnter(other);
+            CurrentState?.OnCollisionEnter(other);
         }
         void OnCollisionStay(Collision other) {
-            CurrentState.OnCollisionStay(other);
+            CurrentState?.OnCollisionStay(other);
         }
         void OnCollisionExit(Collision other) {
-            CurrentState.OnCollisionExit(other);
+            CurrentState?.OnCollisionExit(other);
         }
         public abstract void OnStateChange(EState state);
     }

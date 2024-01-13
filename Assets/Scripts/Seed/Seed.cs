@@ -1,7 +1,9 @@
 ﻿using HurricaneVR.Framework.Core;
 using NinjaTools;
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public enum SeedState {
     Free, Disabled, Sticking, Sticked, Planted, Growing, Grown
@@ -16,11 +18,12 @@ public class Seed : StateManager<SeedState> {
     [field: SerializeField] public float WetMeter { get; private set; } 
     [field: SerializeField] public SeedConfig SeedConfig { get; private set; }
     [field: SerializeField] public HVRGrabbable VRGrabbable { get; private set; }
-
     [SerializeField] FarmingBlock farmingBlock;
     [SerializeField] SeedState currentState;
     [SerializeField] GameObject visu;
 
+    public Action<Seed> OnHarvest;
+    
     private void Awake() {
         States.Add(SeedState.Free, new Free(SeedState.Free, this));
         States.Add(SeedState.Disabled, new Disabled(SeedState.Disabled, this));
@@ -48,7 +51,7 @@ public class Seed : StateManager<SeedState> {
     public void StickToGround() {
         rb.isKinematic = true;
         farmingBlock.OnPlanted += FarmBlockPlanted;
-        farmingBlock.ProgressMeter.Increment();
+        farmingBlock.AddSeed(this);
     }
 
     void FarmBlockPlanted() {
@@ -66,5 +69,17 @@ public class Seed : StateManager<SeedState> {
     }
 
     public void SetKinematic(bool isKinematic) => rb.isKinematic = isKinematic;
+    bool pickedUp = false;
+    public void FirstPickUp() {
+        var logId = "FirstPickUp";
+        if (pickedUp) {
+            return;
+        }
+        logd(logId, "PickedUp");
+        gameObject.tag = "Crop";
+        pickedUp = true;
+        OnHarvest?.Invoke(this);
+        AudioManager.Instance.PlaySFX(SoundType.Harvest, transform.position);
+    }
 
 }

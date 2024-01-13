@@ -130,6 +130,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visu: {fileID: 4103507380190291893}
+  ignoreLayers:
+    serializedVersion: 2
+    m_Bits: 2097408
 --- !u!65 &7307405804317124813
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -149,5 +152,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 3.8, y: 0.05, z: 3.8}
+  m_Size: {x: 1.95, y: 0.05, z: 1.95}
   m_Center: {x: 0, y: 0.05, z: 0}

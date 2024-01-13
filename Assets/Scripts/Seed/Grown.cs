@@ -8,6 +8,7 @@ public class Grown : BaseState<SeedState> {
         _seed = seed;
     }
     public override void EnterState() {
+        AudioManager.Instance.PlaySFX(SoundType.CropReady, _seed.transform.position);
         _seed.VRGrabbable.SetupColliders();
         var logId = "EnterState";
     }

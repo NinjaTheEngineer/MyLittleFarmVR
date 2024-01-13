@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GoldSystem : NinjaMonoBehaviour
 {
+    public static GoldSystem Instance;
     public static Action<int> OnGoldChanged;
     [SerializeField] int startingGold = 10;
     static int _currentGold;
@@ -18,12 +19,18 @@ public class GoldSystem : NinjaMonoBehaviour
             OnGoldChanged?.Invoke(_currentGold);
         }
     }
-
+    private void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        } else {
+            Destroy(gameObject);
+        }
+    }
     private void Start() {
         CurrentGold = startingGold;
     }
 
-    public static bool SpendGold(int amount) {
+    public bool SpendGold(int amount) {
         var logId = "SpendGold";
         if (CurrentGold < amount) {
             Utils.logd(logId, "Not enough gold");
@@ -32,7 +39,7 @@ public class GoldSystem : NinjaMonoBehaviour
         CurrentGold -= amount;
         return true;
     }
-    public static void AddGold(int amount) {
+    public void AddGold(int amount) {
         var logId = "AddGold";
         CurrentGold += amount;
     }

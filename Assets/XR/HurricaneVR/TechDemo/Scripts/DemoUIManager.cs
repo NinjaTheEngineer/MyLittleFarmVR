@@ -112,6 +112,11 @@ namespace HurricaneVR.TechDemo.Scripts
             transform.forward = cameraDir;
         }
 
+        public void CloseMenu() {
+            AudioManager.Instance.PlaySFX(SoundType.CloseMenu, transform.position);
+            Destroy(gameObject);
+        }
+
 
         private IEnumerator CloseMenuRoutine() {
             //I want to check if the player is facing the menu, and if not, turn it off.
@@ -130,7 +135,7 @@ namespace HurricaneVR.TechDemo.Scripts
             var menuDir = transform.position - camTransform.position;
             angle = Vector3.Angle(cameraDir, menuDir);
             if(angle > closeAngle) {
-                gameObject.SetActive(false);
+                CloseMenu();
             }
         }
 
@@ -141,12 +146,14 @@ namespace HurricaneVR.TechDemo.Scripts
 
         public void CalibrateHeight()
         {
+            AudioManager.Instance.PlaySFX(SoundType.ButtonClick, transform.position);
             if (CameraRig)
                 CameraRig.Calibrate();
         }
 
         public void OnSitStandClicked()
         {
+            AudioManager.Instance.PlaySFX(SoundType.ButtonClick, transform.position);
             var index = (int)CameraRig.SitStanding;
             index++;
             if (index > 2)
@@ -160,6 +167,7 @@ namespace HurricaneVR.TechDemo.Scripts
 
         public void OnForceGrabClicked()
         {
+            AudioManager.Instance.PlaySFX(SoundType.ButtonClick, transform.position);
             var index = (int)Inputs.ForceGrabActivation;
             index++;
             if (index > 1)
@@ -200,6 +208,7 @@ namespace HurricaneVR.TechDemo.Scripts
 
         public void OnLeftForceGrabModeClicked()
         {
+            AudioManager.Instance.PlaySFX(SoundType.ButtonClick, transform.position);
             if (LeftForce)
             {
                 if (LeftForce.GrabStyle == HVRForceGrabMode.ForcePull)
@@ -217,6 +226,7 @@ namespace HurricaneVR.TechDemo.Scripts
 
         public void OnRightForceGrabModeClicked()
         {
+            AudioManager.Instance.PlaySFX(SoundType.ButtonClick, transform.position);
             if (RightForce)
             {
                 if (RightForce.GrabStyle == HVRForceGrabMode.ForcePull)

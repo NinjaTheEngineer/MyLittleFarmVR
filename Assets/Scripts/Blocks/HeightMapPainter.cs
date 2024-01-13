@@ -126,6 +126,7 @@ public class HeightMapPainter : NinjaMonoBehaviour {
         Debug.Log("Changed mesh for " + contactsCount + " contact points");
         lastPaintTime = Time.realtimeSinceStartup;
     }
+    private List<SoundType> groundWorkSoundList = new List<SoundType>() { SoundType.GroundWork_1, SoundType.GroundWork_2 };
     void PaintHeightMap() {
         var logId = "PaintHeightMap";
         var hit = new RaycastHit();
@@ -166,6 +167,8 @@ public class HeightMapPainter : NinjaMonoBehaviour {
             newY = newY >= minY ? newY : minY;
             vertices[closestVertexIndex].y = newY;
             mesh.vertices = vertices;
+            //from audiomanager play random list sound with groundWork_1 and groundwork_2
+            AudioManager.Instance.PlayRandom(groundWorkSoundList, transform.position);
             mesh.RecalculateBounds();
 
         }
