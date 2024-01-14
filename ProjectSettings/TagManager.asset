@@ -6,6 +6,7 @@ TagManager:
   tags:
   - projectile
   - Terrain
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -14,7 +15,7 @@ TagManager:
   - Water
   - UI
   - Hats
-  - 
+  - HarvestCrop
   - Player
   - DynamicPose
   - 
